@@ -13,11 +13,11 @@ In this repo, I'll try my best to make full use of Rust's features to fulfill th
 git clone git@github.com:Hyiker/ray_tracing_in_one_week_rust.git
 ```
 
-### pick the module and run it
+### execute the sample code
 
 ```bash
-cd ./ray_tracing_in_one_week_rust/output_an_image
-cargo run > ../resources/res.ppm
+cd ./ray_tracing_in_one_week_rust
+cargo run > output/res.ppm
 ```
 
 ## Chapters to finish
