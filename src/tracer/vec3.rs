@@ -3,6 +3,12 @@ use std::ops;
 pub struct Vec3 {
     e: [f64; 3],
 }
+impl Clone for Vec3 {
+    fn clone(&self) -> Self {
+        Vec3 { e: self.e }
+    }
+}
+impl Copy for Vec3 {}
 impl Default for Vec3 {
     fn default() -> Self {
         Vec3 { e: [0.0, 0.0, 0.0] }
@@ -148,9 +154,9 @@ impl Vec3 {
     pub fn length(&self) -> f64 {
         self.length_squared().sqrt()
     }
-    pub fn unit_vector(self) -> Self {
+    pub fn unit_vector(&self) -> Self {
         let len = self.length();
-        self / len
+        *self / len
     }
 }
 pub fn dot_vec3(u: &Vec3, v: &Vec3) -> f64 {
@@ -163,27 +169,8 @@ pub fn cross_vec3(u: &Vec3, v: &Vec3) -> Vec3 {
         u.e[0] * v.e[1] - u.e[1] * v.e[0],
     )
 }
-pub use Vec3 as point3;
-pub use Vec3 as color;
 
-pub fn output_ppm() {
-    let image_width = 256;
-    let image_height = 256;
-    print!("P3\n{} {}\n255\n", image_width, image_height);
-    for j in (0..image_height).rev() {
-        eprint!("\r Scan lines remaining: {}", j);
-        for i in 0..image_width {
-            let pixel_color = color::new(
-                (i as f64) / ((image_width - 1) as f64),
-                (j as f64) / ((image_height - 1) as f64),
-                0.25,
-            );
-            write_color(pixel_color);
-        }
-    }
-    eprint!("\nDone.\n");
-}
-fn write_color(pixel_color: color) {
+fn write_color(pixel_color: Vec3) {
     let multi = 255.999;
     print!(
         "{} {} {}\n",
