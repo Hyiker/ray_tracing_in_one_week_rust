@@ -1,4 +1,4 @@
-use super::Vec3;
+use super::vec3::{dot_vec3, Vec3};
 pub struct Ray {
     origin: Vec3,
     direction: Vec3,
@@ -23,12 +23,25 @@ impl Ray {
     pub fn at(&self, t: f64) -> Vec3 {
         self.origin + t * self.direction
     }
+
+    // calculate the point color on a ray
+    // ray color is gradient
+    // color = ( 1 - t ) * start_color + t * end_color
+    pub fn color(&self) -> Vec3 {
+        if hit_sphere(Vec3::new(0.0, 0.0, -1.0), 0.5, self) {
+            return Vec3::new(1.0, 0.0, 0.0)
+        }
+        let unit_direction = self.direction.unit_vector();
+        let t = 0.5 * (unit_direction.y() + 1.0);
+        (1.0 - t) * Vec3::new(1.0, 1.0, 1.0) + t * Vec3::new(0.5, 0.7, 1.0)
+    }
 }
 
-// calculate the point color on a ray
-// ray color is gradient
-pub fn ray_color(ray: &Ray) -> Vec3 {
-    let unit_direction = ray.direction.unit_vector();
-    let t = 0.5 * (unit_direction.y() + 1.0);
-    (1.0 - t) * Vec3::new(1.0, 1.0, 1.0) + t * Vec3::new(0.5, 0.7, 1.0)
+fn hit_sphere(center: Vec3, radius: f64, r: &Ray) -> bool {
+    let oc = r.origin - center;
+    let a = dot_vec3(&r.direction, &r.direction);
+    let b = 2.0 * dot_vec3(&oc, &r.direction);
+    let c = dot_vec3(&oc, &oc) - radius * radius;
+    let discriminant = b * b - 4.0 * a * c;
+    discriminant > 0.0
 }

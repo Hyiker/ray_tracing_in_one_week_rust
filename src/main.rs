@@ -1,7 +1,7 @@
 mod render;
 mod tracer;
 use self::render::render::write_color;
-use self::tracer::ray::{ray_color, Ray};
+use self::tracer::ray::Ray;
 use self::tracer::vec3::Vec3;
 fn main() {
     // output a sample ppm image
@@ -21,15 +21,15 @@ fn main() {
 
     print!("P3\n{} {}\n255\n", image_width, image_height);
     for j in (0..image_height).rev() {
-        eprint!("\rScanlines remaining: {} ", j);
-        for i in (0..image_width) {
+        eprint!("\rScan lines remaining: {} ", j);
+        for i in 0..image_width {
             let u = (i as f64) / (image_width as f64 - 1.0);
             let v = (j as f64) / (image_height as f64 - 1.0);
             let r = Ray::new(
                 &origin,
                 &(lower_left_corner + u * horizontal + v * vertical - origin),
             );
-            let pixel_color = ray_color(&r);
+            let pixel_color = r.color();
             write_color(pixel_color);
         }
     }
