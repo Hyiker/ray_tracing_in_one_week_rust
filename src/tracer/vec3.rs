@@ -144,7 +144,7 @@ impl Vec3 {
     pub fn z(&self) -> f64 {
         self.e[2]
     }
-    fn length_squared(&self) -> f64 {
+    pub fn length_squared(&self) -> f64 {
         let mut res = 0.0;
         for i in 0..3 {
             res += self.e[i] * self.e[i];
