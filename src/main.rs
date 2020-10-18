@@ -7,7 +7,7 @@ fn main() {
     // output a sample ppm image
     let aspect_ratio = 16.0 / 9.0;
     let image_width = 400;
-    let image_height = image_width / aspect_ratio as i32;
+    let image_height = (image_width as f64 / aspect_ratio) as i32;
 
     let viewport_height = 2.0;
     let viewport_width = aspect_ratio * viewport_height;
