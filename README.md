@@ -27,7 +27,7 @@ cargo run > output/res.ppm
 - [x] 4. Rays, a Simple Camera, and Background
 - [x] 5. Adding a Sphere
 - [x] 6. Surface Normals and Multiple Objects
-- [ ] 7. Antialiasing
+- [x] 7. Antialiasing
 - [ ] 8. Diffuse Materials
 - [ ] 9. Metal
 - [ ] 10. Dielectrics
