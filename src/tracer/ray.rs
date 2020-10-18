@@ -28,8 +28,10 @@ impl Ray {
     // ray color is gradient
     // color = ( 1 - t ) * start_color + t * end_color
     pub fn color(&self) -> Vec3 {
-        if hit_sphere(Vec3::new(0.0, 0.0, -1.0), 0.5, self) {
-            return Vec3::new(1.0, 0.0, 0.0)
+        let t = hit_sphere(Vec3::new(0.0, 0.0, -1.0), 0.5, self);
+        if t > 0.0 {
+            let n = self.at(t) - Vec3::new(0.0, 0.0, -1.0);
+            return 0.5 * Vec3::new(n.x() + 1.0, n.y() + 1.0, n.z() + 1.0);
         }
         let unit_direction = self.direction.unit_vector();
         let t = 0.5 * (unit_direction.y() + 1.0);
@@ -37,11 +39,15 @@ impl Ray {
     }
 }
 
-fn hit_sphere(center: Vec3, radius: f64, r: &Ray) -> bool {
+fn hit_sphere(center: Vec3, radius: f64, r: &Ray) -> f64 {
     let oc = r.origin - center;
-    let a = dot_vec3(&r.direction, &r.direction);
-    let b = 2.0 * dot_vec3(&oc, &r.direction);
-    let c = dot_vec3(&oc, &oc) - radius * radius;
-    let discriminant = b * b - 4.0 * a * c;
-    discriminant > 0.0
+    let a = r.direction.length_squared();
+    let half_b = dot_vec3(&oc, &r.direction);
+    let c = oc.length_squared() - radius * radius;
+    let discriminant = half_b * half_b - a * c;
+    if discriminant < 0.0 {
+        return -1.0;
+    } else {
+        return (-half_b - discriminant.sqrt()) / a;
+    }
 }
