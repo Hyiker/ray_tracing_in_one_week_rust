@@ -1,17 +1,20 @@
 mod render;
 mod tracer;
+mod utils;
 use self::render::render::write_color;
+use self::tracer::objects::{hittable, sphere::Sphere};
 use self::tracer::ray::Ray;
 use self::tracer::vec3::Vec3;
-use self::tracer::objects::hittable;
 fn main() {
     // output a sample ppm image
     let aspect_ratio = 16.0 / 9.0;
     let image_width = 400;
     let image_height = (image_width as f64 / aspect_ratio) as i32;
 
-    let world = hittable::HittableList::default();
+    let mut world = hittable::HittableList::default();
     // add objects
+    world.add(Box::new(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5)));
+    world.add(Box::new(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0)));
 
     let viewport_height = 2.0;
     let viewport_width = aspect_ratio * viewport_height;
@@ -33,7 +36,7 @@ fn main() {
                 &origin,
                 &(lower_left_corner + u * horizontal + v * vertical - origin),
             );
-            let pixel_color = r.color();
+            let pixel_color = r.color(&world);
             write_color(pixel_color);
         }
     }

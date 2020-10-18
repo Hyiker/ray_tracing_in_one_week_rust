@@ -61,6 +61,9 @@ impl HittableList {
         }
         hit_anything
     }
+    pub fn add(&mut self, hittable: Box<dyn Hittable>){
+        self.objects.push(hittable);
+    }
 }
 pub trait Hittable {
     fn hit(&self, r: &ray::Ray, t_min: f64, t_max: f64, rec: &mut HitRecord) -> bool;

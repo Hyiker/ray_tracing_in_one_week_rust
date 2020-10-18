@@ -24,9 +24,9 @@ cargo run > output/res.ppm
 
 - [x] 2. Output an Image
 - [x] 3. The vec3 Class
-- [ ] 4. Rays, a Simple Camera, and Background
-- [ ] 5. Adding a Sphere
-- [ ] 6. Surface Normals and Multiple Objects
+- [x] 4. Rays, a Simple Camera, and Background
+- [x] 5. Adding a Sphere
+- [x] 6. Surface Normals and Multiple Objects
 - [ ] 7. Antialiasing
 - [ ] 8. Diffuse Materials
 - [ ] 9. Metal

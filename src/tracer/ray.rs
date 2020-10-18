@@ -1,6 +1,6 @@
+use crate::utils::constants;
 use super::objects::hittable;
 use super::vec3::{dot_vec3, Vec3};
-use crate::utils::constants;
 pub struct Ray {
     pub origin: Vec3,
     pub direction: Vec3,
