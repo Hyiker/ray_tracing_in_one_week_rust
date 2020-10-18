@@ -1,7 +1,9 @@
+use super::objects::hittable;
 use super::vec3::{dot_vec3, Vec3};
+use crate::utils::constants;
 pub struct Ray {
-    origin: Vec3,
-    direction: Vec3,
+    pub origin: Vec3,
+    pub direction: Vec3,
 }
 impl Default for Ray {
     fn default() -> Self {
@@ -27,11 +29,10 @@ impl Ray {
     // calculate the point color on a ray
     // ray color is gradient
     // color = ( 1 - t ) * start_color + t * end_color
-    pub fn color(&self) -> Vec3 {
-        let t = hit_sphere(Vec3::new(0.0, 0.0, -1.0), 0.5, self);
-        if t > 0.0 {
-            let n = self.at(t) - Vec3::new(0.0, 0.0, -1.0);
-            return 0.5 * Vec3::new(n.x() + 1.0, n.y() + 1.0, n.z() + 1.0);
+    pub fn color(&self, world: &hittable::HittableList) -> Vec3 {
+        let rec = &mut hittable::HitRecord::default();
+        if world.hit(self, 0.0, constants::INFINITY, rec) {
+            return 0.5 * (rec.normal + Vec3::new(1.0, 1.0, 1.0));
         }
         let unit_direction = self.direction.unit_vector();
         let t = 0.5 * (unit_direction.y() + 1.0);
