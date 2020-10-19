@@ -1,3 +1,4 @@
+use crate::utils::functions::{random_double, random_double_range};
 use std::fmt;
 use std::ops;
 pub struct Vec3 {
@@ -135,6 +136,16 @@ impl Vec3 {
     pub fn new(e0: f64, e1: f64, e2: f64) -> Self {
         Vec3 { e: [e0, e1, e2] }
     }
+    pub fn random() -> Self {
+        Vec3::new(random_double(), random_double(), random_double())
+    }
+    pub fn random_range(min: f64, max: f64) -> Self {
+        Vec3::new(
+            random_double_range(min, max),
+            random_double_range(min, max),
+            random_double_range(min, max),
+        )
+    }
     pub fn x(&self) -> f64 {
         self.e[0]
     }
@@ -169,3 +180,5 @@ pub fn cross_vec3(u: &Vec3, v: &Vec3) -> Vec3 {
         u.e[0] * v.e[1] - u.e[1] * v.e[0],
     )
 }
+
+// TODO: add random_in_unit_sphere
