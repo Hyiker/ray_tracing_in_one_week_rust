@@ -13,11 +13,20 @@ In this repo, I'll try my best to make full use of Rust's features to fulfill th
 git clone git@github.com:Hyiker/ray_tracing_in_one_week_rust.git
 ```
 
-### execute the sample code
+### Render a sample image
 
 ```bash
 cd ./ray_tracing_in_one_week_rust
-cargo run > output/res.ppm
+```
+
+```bash
+cargo build && cargo run > output/sample.ppm
+```
+
+or, run this code with release build mode(could be way much faster)
+
+```bash
+cargo build --release && cargo run --release > output/sample.ppm
 ```
 
 ## Chapters to finish
