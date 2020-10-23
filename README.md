@@ -29,7 +29,7 @@ cargo run > output/res.ppm
 - [x] 6. Surface Normals and Multiple Objects
 - [x] 7. Antialiasing
 - [x] 8. Diffuse Materials
-- [ ] 9. Metal
+- [x] 9. Metal
 - [ ] 10. Dielectrics
 - [ ] 11. Positionable Camera
 - [ ] 12. Defocus Blur
