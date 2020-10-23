@@ -42,7 +42,7 @@ impl Clone for HitRecord {
     }
 }
 pub struct HittableList {
-    objects: Vec<Box<dyn Hittable>>,
+    objects: Vec<Rc<dyn Hittable>>,
 }
 impl Default for HittableList {
     fn default() -> Self {
@@ -65,7 +65,7 @@ impl HittableList {
         }
         hit_anything
     }
-    pub fn add(&mut self, hittable: Box<dyn Hittable>) {
+    pub fn add(&mut self, hittable: Rc<dyn Hittable>) {
         self.objects.push(hittable);
     }
 }

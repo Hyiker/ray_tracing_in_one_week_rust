@@ -1,16 +1,16 @@
 use super::material;
 use super::{objects, ray, vec3};
-pub struct Lambertian {
-    pub albedo: vec3::Vec3,
+pub struct Metal {
+    albedo: vec3::Vec3,
 }
-impl Lambertian {
+impl Metal {
     pub fn new(color: vec3::Vec3) -> Self {
         Self {
             albedo: color,
         }
     }
 }
-impl material::Material for Lambertian {
+impl material::Material for Metal {
     fn scatter(
         &self,
         r_in: &ray::Ray,
@@ -18,9 +18,9 @@ impl material::Material for Lambertian {
         attenuation: &mut vec3::Vec3,
         scattered: &mut ray::Ray,
     ) -> bool {
-        let scatter_direction = rec.normal + vec3::Vec3::random_unit_vector();
-        *scattered = ray::Ray::new(&rec.p, &scatter_direction);
+        let reflected = vec3::reflect(&r_in.direction.unit_vector(), &rec.normal);
+        *scattered = ray::Ray::new(&rec.p, &reflected);
         *attenuation = self.albedo;
-        true
+        vec3::dot_vec3(&scattered.direction, &rec.normal) > 0.0
     }
 }

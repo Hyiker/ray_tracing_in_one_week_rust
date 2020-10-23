@@ -35,9 +35,17 @@ impl Ray {
             return Vec3::new(0.0, 0.0, 0.0);
         }
         if world.hit(self, 0.001, constants::INFINITY, rec) {
+            let mut scattered = Ray::default();
+            let mut attenuation = Vec3::default();
+            if rec.clone()
+                .mat_ptr
+                .expect("HitRecord's material pointer can't be None!")
+                .scatter(self, rec, &mut attenuation, &mut scattered)
+            {
+                return attenuation * scattered.color(world, depth - 1);
+            }
             // let target = rec.p + rec.normal + Vec3::random_unit_vector();
-            let target = rec.p + rec.normal.random_in_hemisphere();
-            return 0.5 * Ray::new(&rec.p, &(target - rec.p)).color(world, depth - 1);
+            return Vec3::new(0.0, 0.0, 0.0);
         }
         let unit_direction = self.direction.unit_vector();
         let t = 0.5 * (unit_direction.y() + 1.0);
