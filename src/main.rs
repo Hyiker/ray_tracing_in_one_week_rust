@@ -20,6 +20,8 @@ fn main() {
     let samples_per_pixel = 100;
     let max_depth = 50;
 
+    let R = utils::constants::PI.cos();
+
     // WORLD SCENE SETTING UP
     let mut world = hittable::HittableList::default();
     // add objects
@@ -54,7 +56,13 @@ fn main() {
         Some(material_right),
     )));
 
-    let cam = Camera::new();
+    let cam = Camera::new(
+        Vec3::new(-2.0, 2.0, 1.0),
+        Vec3::new(0.0, 0.0, -1.0),
+        Vec3::new(0.0, 1.0, 0.0),
+        90.0,
+        aspect_ratio,
+    );
 
     print!("P3\n{} {}\n255\n", image_width, image_height);
     for j in (0..image_height).rev() {
