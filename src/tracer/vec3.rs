@@ -1,6 +1,8 @@
+use crate::utils::constants;
 use crate::utils::functions::{random_double, random_double_range};
 use std::fmt;
 use std::ops;
+
 pub struct Vec3 {
     e: [f64; 3],
 }
@@ -169,7 +171,7 @@ impl Vec3 {
         let len = self.length();
         *self / len
     }
-    pub fn random_in_unit_sphere() -> Vec3 {
+    pub fn random_in_unit_sphere() -> Self {
         loop {
             let p = Vec3::random_range(-1.0, 1.0);
             if p.length_squared() >= 1.0 {
@@ -177,6 +179,22 @@ impl Vec3 {
             }
             return p;
         }
+    }
+
+    pub fn random_in_hemisphere(&self) -> Self {
+        let in_unit_sphere = Vec3::random_in_unit_sphere();
+        if dot_vec3(&in_unit_sphere, self) > 0.0 {
+            return in_unit_sphere;
+        } else {
+            return -in_unit_sphere;
+        }
+    }
+
+    pub fn random_unit_vector() -> Self {
+        let a = random_double_range(0.0, 2.0 * constants::PI);
+        let z = random_double_range(-1.0, 1.0);
+        let r = (1.0 - z * z).sqrt();
+        Vec3::new(r * a.cos(), r * a.sin(), z)
     }
 }
 pub fn dot_vec3(u: &Vec3, v: &Vec3) -> f64 {
@@ -189,5 +207,3 @@ pub fn cross_vec3(u: &Vec3, v: &Vec3) -> Vec3 {
         u.e[0] * v.e[1] - u.e[1] * v.e[0],
     )
 }
-
-// TODO: add random_in_unit_sphere
