@@ -1,9 +1,11 @@
 use super::super::{ray, vec3};
+use super::materials::material::Material;
 pub struct HitRecord {
     pub p: vec3::Vec3,
     pub normal: vec3::Vec3,
     pub t: f64,
     pub front_face: bool,
+    pub mat_ptr: Option<Box<dyn Material>>,
 }
 
 impl HitRecord {
@@ -23,20 +25,26 @@ impl Default for HitRecord {
             normal: vec3::Vec3::default(),
             t: 0.0,
             front_face: false,
+            mat_ptr: Option::None,
         }
     }
 }
 impl Clone for HitRecord {
     fn clone(&self) -> Self {
+        // FIXME :impl Clone for HitRecord
+        let mat_ptr = match self.mat_ptr{
+            Some(ptr)=>ptr,
+            None=>()
+        }
         HitRecord {
             p: self.p,
             normal: self.normal,
             t: self.t,
             front_face: self.front_face,
+            mat_ptr: self.mat_ptr,
         }
     }
 }
-impl Copy for HitRecord {}
 pub struct HittableList {
     objects: Vec<Box<dyn Hittable>>,
 }
@@ -61,7 +69,7 @@ impl HittableList {
         }
         hit_anything
     }
-    pub fn add(&mut self, hittable: Box<dyn Hittable>){
+    pub fn add(&mut self, hittable: Box<dyn Hittable>) {
         self.objects.push(hittable);
     }
 }
