@@ -6,6 +6,6 @@ pub trait Material {
         r_in: &ray::Ray,
         rec: &HitRecord,
         attenuation: &mut vec3::Vec3,
-        ray: &mut ray::Ray,
-    );
+        scattered: &mut ray::Ray,
+    ) -> bool;
 }

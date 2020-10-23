@@ -1,11 +1,12 @@
 use super::super::{ray, vec3};
 use super::materials::material::Material;
+use std::rc::Rc;
 pub struct HitRecord {
     pub p: vec3::Vec3,
     pub normal: vec3::Vec3,
     pub t: f64,
     pub front_face: bool,
-    pub mat_ptr: Option<Box<dyn Material>>,
+    pub mat_ptr: Option<Rc<dyn Material>>,
 }
 
 impl HitRecord {
@@ -31,17 +32,12 @@ impl Default for HitRecord {
 }
 impl Clone for HitRecord {
     fn clone(&self) -> Self {
-        // FIXME :impl Clone for HitRecord
-        let mat_ptr = match self.mat_ptr{
-            Some(ptr)=>ptr,
-            None=>()
-        }
         HitRecord {
             p: self.p,
             normal: self.normal,
             t: self.t,
             front_face: self.front_face,
-            mat_ptr: self.mat_ptr,
+            mat_ptr: self.mat_ptr.clone(),
         }
     }
 }
@@ -64,7 +60,7 @@ impl HittableList {
             if object.as_ref().hit(r, t_min, closest_so_far, temp_rec) {
                 hit_anything = true;
                 closest_so_far = temp_rec.t;
-                *rec = *temp_rec;
+                *rec = temp_rec.clone();
             }
         }
         hit_anything

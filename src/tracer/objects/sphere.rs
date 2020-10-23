@@ -1,22 +1,27 @@
 use super::super::{ray, vec3};
 use super::hittable::{HitRecord, Hittable};
+use super::materials::material::Material;
+use std::rc::Rc;
 pub struct Sphere {
     center: vec3::Vec3,
     radius: f64,
+    mat_ptr: Option<Rc<dyn Material>>,
 }
 impl Default for Sphere {
     fn default() -> Self {
         Sphere {
             center: vec3::Vec3::default(),
             radius: 0.0,
+            mat_ptr: None,
         }
     }
 }
 impl Sphere {
-    pub fn new(cen: vec3::Vec3, r: f64) -> Self {
+    pub fn new(cen: vec3::Vec3, r: f64, mat_ptr: Option<Rc<dyn Material>>) -> Self {
         Sphere {
             center: cen,
             radius: r,
+            mat_ptr: mat_ptr,
         }
     }
 }
@@ -36,6 +41,7 @@ impl Hittable for Sphere {
                 rec.p = r.at(rec.t);
                 let outward_normal = (rec.p - self.center) / self.radius;
                 rec.set_face_normal(r, &outward_normal);
+                rec.mat_ptr = self.mat_ptr.clone();
                 return true;
             }
             let temp = (-half_b + root) / a;
@@ -44,6 +50,7 @@ impl Hittable for Sphere {
                 rec.p = r.at(rec.t);
                 let outward_normal = (rec.p - self.center) / self.radius;
                 rec.set_face_normal(r, &outward_normal);
+                rec.mat_ptr = self.mat_ptr.clone();
                 return true;
             }
         }
