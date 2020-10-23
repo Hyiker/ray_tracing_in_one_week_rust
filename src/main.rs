@@ -41,7 +41,12 @@ fn main() {
     world.add(Rc::new(Sphere::new(
         Vec3::new(-1.0, 0.0, -1.0),
         0.5,
-        Some(material_left),
+        Some(material_left.clone()),
+    )));
+    world.add(Rc::new(Sphere::new(
+        Vec3::new(-1.0, 0.0, -1.0),
+        -0.4,
+        Some(material_left.clone()),
     )));
     world.add(Rc::new(Sphere::new(
         Vec3::new(1.0, 0.0, -1.0),
