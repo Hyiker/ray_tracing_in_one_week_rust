@@ -19,4 +19,4 @@ Cargo.lock
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,rust
-*.ppm
+output/*.ppm
