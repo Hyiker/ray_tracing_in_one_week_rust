@@ -8,19 +8,16 @@ use self::tracer::objects::{
     materials::{dielectric::Dielectric, lambertian::Lambertian, metal::Metal},
     sphere::Sphere,
 };
-use self::tracer::ray::Ray;
 use self::tracer::vec3::Vec3;
 use self::utils::functions::random_double;
 use std::rc::Rc;
 fn main() {
     // output a sample ppm image
     let aspect_ratio = 16.0 / 9.0;
-    let image_width = 400;
+    let image_width = 1920;
     let image_height = (image_width as f64 / aspect_ratio) as i32;
     let samples_per_pixel = 100;
     let max_depth = 50;
-
-    let R = utils::constants::PI.cos();
 
     // WORLD SCENE SETTING UP
     let mut world = hittable::HittableList::default();
@@ -65,6 +62,7 @@ fn main() {
     );
 
     print!("P3\n{} {}\n255\n", image_width, image_height);
+    let mut result = String::new();
     for j in (0..image_height).rev() {
         eprint!("\rScan lines remaining: {} ", j);
         for i in 0..image_width {
@@ -76,8 +74,10 @@ fn main() {
                 pixel_color += r.color(&world, max_depth);
             }
 
-            write_color(pixel_color, samples_per_pixel);
+            result += &write_color(pixel_color, samples_per_pixel);
         }
     }
-    eprintln!("\nDone");
+    eprintln!("\nWriting into Disk...");
+    print!("{}", result);
+    eprintln!("\nDone.");
 }

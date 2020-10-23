@@ -19,6 +19,13 @@ git clone git@github.com:Hyiker/ray_tracing_in_one_week_rust.git
 cd ./ray_tracing_in_one_week_rust
 ```
 
+customize the width and ratio aspect in `main.rs` to modify the image resolution:
+
+```rust
+    let image_width = 1920;
+    let aspect_ratio = 16.0 / 9.0;
+```
+
 ```bash
 cargo build && cargo run > output/sample.ppm
 ```
