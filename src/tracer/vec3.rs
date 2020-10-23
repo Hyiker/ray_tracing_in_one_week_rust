@@ -207,6 +207,14 @@ pub fn cross_vec3(u: &Vec3, v: &Vec3) -> Vec3 {
         u.e[0] * v.e[1] - u.e[1] * v.e[0],
     )
 }
+
+pub fn refract(uv: &Vec3, n: &Vec3, etai_over_etat: f64) -> Vec3 {
+    let cos_theta = dot_vec3(&-*uv, &n);
+    let r_out_perp = etai_over_etat * (*uv + cos_theta * *n);
+    let r_out_parallel = -(1.0 - r_out_perp.length_squared()).abs().sqrt() * *n;
+    r_out_perp + r_out_parallel
+}
+
 pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
     *v - 2.0 * dot_vec3(v, n) * (*n)
 }
