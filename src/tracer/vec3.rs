@@ -218,3 +218,17 @@ pub fn refract(uv: &Vec3, n: &Vec3, etai_over_etat: f64) -> Vec3 {
 pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
     *v - 2.0 * dot_vec3(v, n) * (*n)
 }
+
+pub fn random_in_unit_disk() -> Vec3 {
+    loop {
+        let p = Vec3::new(
+            random_double_range(-1.0, 1.0),
+            random_double_range(-1.0, 1.0),
+            0.0,
+        );
+        if p.length_squared() >= 1.0 {
+            continue;
+        }
+        return p;
+    }
+}

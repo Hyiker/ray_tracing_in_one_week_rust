@@ -14,10 +14,15 @@ use std::rc::Rc;
 fn main() {
     // output a sample ppm image
     let aspect_ratio = 16.0 / 9.0;
-    let image_width = 1920;
+    let image_width = 720;
     let image_height = (image_width as f64 / aspect_ratio) as i32;
     let samples_per_pixel = 100;
     let max_depth = 50;
+    let look_from = Vec3::new(3.0, 3.0, 2.0);
+    let look_at = Vec3::new(0.0, 0.0, -1.0);
+    let vup = Vec3::new(0.0, 1.0, 0.0);
+    let dist_to_focus = (look_from - look_at).length();
+    let aperture = 2.0;
 
     // WORLD SCENE SETTING UP
     let mut world = hittable::HittableList::default();
@@ -54,15 +59,16 @@ fn main() {
     )));
 
     let cam = Camera::new(
-        Vec3::new(-2.0, 2.0, 1.0),
-        Vec3::new(0.0, 0.0, -1.0),
-        Vec3::new(0.0, 1.0, 0.0),
-        90.0,
+        look_from,
+        look_at,
+        vup,
+        20.0,
         aspect_ratio,
+        aperture,
+        dist_to_focus,
     );
 
     print!("P3\n{} {}\n255\n", image_width, image_height);
-    let mut result = String::new();
     for j in (0..image_height).rev() {
         eprint!("\rScan lines remaining: {} ", j);
         for i in 0..image_width {
@@ -74,10 +80,9 @@ fn main() {
                 pixel_color += r.color(&world, max_depth);
             }
 
-            result += &write_color(pixel_color, samples_per_pixel);
+            write_color(pixel_color, samples_per_pixel);
         }
     }
     eprintln!("\nWriting into Disk...");
-    print!("{}", result);
     eprintln!("\nDone.");
 }
