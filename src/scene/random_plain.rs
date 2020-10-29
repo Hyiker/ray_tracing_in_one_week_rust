@@ -54,7 +54,7 @@ impl RandomPlain {
 
         let material2 = Rc::new(Lambertian::new(Vec3::new(0.4, 0.2, 0.1)));
         world.add(Rc::new(Sphere::new(
-            Vec3::new(4.0, 1.0, 0.0),
+            Vec3::new(-4.0, 1.0, 0.0),
             1.0,
             Some(material2),
         )));
