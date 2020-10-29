@@ -10,5 +10,5 @@ pub fn write_color(pixel_color: Vec3, samples_per_pixel: usize) {
         (256.0 * clamp(r, 0.0, 0.999)) as i32,
         (256.0 * clamp(g, 0.0, 0.999)) as i32,
         (256.0 * clamp(b, 0.0, 0.999)) as i32
-    );
+    )
 }
