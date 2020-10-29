@@ -30,7 +30,7 @@ fn random_scene() -> hittable::HittableList {
             );
 
             if (center - Vec3::new(4.0, 0.2, 0.0)).length() > 0.9 {
-                let sphere_material: Rc<Material>;
+                let sphere_material: Rc<dyn Material>;
                 if choose_mat < 0.8 {
                     let albedo = Vec3::random() * Vec3::random();
                     sphere_material = Rc::new(Lambertian::new(albedo));
