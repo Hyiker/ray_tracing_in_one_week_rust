@@ -6,7 +6,7 @@ impl NaiveRenderer {
     }
 }
 impl Renderer for NaiveRenderer {
-    fn render(&self, scene: Rc<dyn Scene>) {
+    fn render(&self, scene: Arc<dyn Scene>) {
         let config = scene.get_config();
         print!("P3\n{} {}\n255\n", config.image_width, config.image_height);
         for j in (0..config.image_height).rev() {

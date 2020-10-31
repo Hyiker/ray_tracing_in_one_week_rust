@@ -15,5 +15,5 @@ pub fn format_pixel(pixel_color: Vec3, samples_per_pixel: usize) -> String {
 }
 
 pub trait Renderer {
-    fn render(&self, scene: Rc<dyn Scene>);
+    fn render(&self, scene: Arc<dyn Scene>);
 }
