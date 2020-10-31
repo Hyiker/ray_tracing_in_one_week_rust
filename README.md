@@ -49,4 +49,4 @@ cargo build --release && cargo run --release > output/sample.ppm
 - [x] 10. Dielectrics
 - [x] 11. Positionable Camera
 - [x] 12. Defocus Blur
-- [ ] 13. Where Next?
+- [ ] 13. Parallelism

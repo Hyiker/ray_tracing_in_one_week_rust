@@ -1,13 +1,13 @@
-mod render;
+mod renderer;
 mod scene;
 mod tracer;
 mod utils;
 
-use self::render::render::render_and_output;
+use self::renderer::{naive_renderer::NaiveRenderer, renderer::Renderer};
 use self::scene::{random_plain::RandomPlain, three_spheres_plain::ThreeSpheresPlain};
 use std::rc::Rc;
 fn main() {
-    let scene = Rc::new(RandomPlain::new());
-
-    render_and_output(scene);
+    let scene = Rc::new(ThreeSpheresPlain::new());
+    let renderer = NaiveRenderer::new();
+    renderer.render(scene);
 }

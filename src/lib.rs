@@ -1,4 +1,4 @@
 pub mod utils;
 pub mod tracer;
-pub mod render;
+pub mod renderer;
 pub mod scene;
