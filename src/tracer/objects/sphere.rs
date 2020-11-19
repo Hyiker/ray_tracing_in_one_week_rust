@@ -1,11 +1,11 @@
 use super::super::{ray, vec3};
 use super::hittable::{HitRecord, Hittable};
 use super::materials::material::Material;
-use std::rc::Rc;
+use std::sync::Arc;
 pub struct Sphere {
     center: vec3::Vec3,
     radius: f64,
-    mat_ptr: Option<Rc<dyn Material>>,
+    mat_ptr: Option<Arc<dyn Material>>,
 }
 impl Default for Sphere {
     fn default() -> Self {
@@ -17,7 +17,7 @@ impl Default for Sphere {
     }
 }
 impl Sphere {
-    pub fn new(cen: vec3::Vec3, r: f64, mat_ptr: Option<Rc<dyn Material>>) -> Self {
+    pub fn new(cen: vec3::Vec3, r: f64, mat_ptr: Option<Arc<dyn Material>>) -> Self {
         Sphere {
             center: cen,
             radius: r,

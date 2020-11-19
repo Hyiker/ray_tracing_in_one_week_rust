@@ -1,12 +1,12 @@
 use super::super::{ray, vec3};
 use super::materials::material::Material;
-use std::rc::Rc;
+use std::sync::Arc;
 pub struct HitRecord {
     pub p: vec3::Vec3,
     pub normal: vec3::Vec3,
     pub t: f64,
     pub front_face: bool,
-    pub mat_ptr: Option<Rc<dyn Material>>,
+    pub mat_ptr: Option<Arc<dyn Material>>,
 }
 
 impl HitRecord {
@@ -42,7 +42,7 @@ impl Clone for HitRecord {
     }
 }
 pub struct HittableList {
-    objects: Vec<Rc<dyn Hittable>>,
+    objects: Vec<Arc<dyn Hittable>>,
 }
 impl Default for HittableList {
     fn default() -> Self {
@@ -65,7 +65,7 @@ impl HittableList {
         }
         hit_anything
     }
-    pub fn add(&mut self, hittable: Rc<dyn Hittable>) {
+    pub fn add(&mut self, hittable: Arc<dyn Hittable>) {
         self.objects.push(hittable);
     }
 }

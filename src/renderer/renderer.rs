@@ -1,6 +1,8 @@
 use super::*;
 use crate::tracer::vec3::Vec3;
 use num::clamp;
+pub type ThreadScene = dyn Scene + Sync + Send;
+
 pub fn format_pixel(pixel_color: Vec3, samples_per_pixel: usize) -> String {
     let scale = 1.0 / (samples_per_pixel as f64);
     let r = (pixel_color.x() * scale).sqrt();
@@ -15,5 +17,5 @@ pub fn format_pixel(pixel_color: Vec3, samples_per_pixel: usize) -> String {
 }
 
 pub trait Renderer {
-    fn render(&self, scene: Arc<dyn Scene>);
+    fn render(&self, scene: Arc<ThreadScene>);
 }

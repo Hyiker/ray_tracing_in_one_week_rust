@@ -3,7 +3,6 @@ use super::{
     hittable,
     scene::{Scene, SceneConfig},
 };
-use std::rc::Rc;
 pub struct ThreeSpheresPlain {
     world: hittable::HittableList,
     config: SceneConfig,
@@ -35,32 +34,32 @@ impl ThreeSpheresPlain {
         // WORLD SCENE SETTING UP
         let mut world = hittable::HittableList::default();
         // add objects
-        let material_ground = Rc::new(Lambertian::new(Vec3::new(0.8, 0.8, 0.0)));
-        let material_center = Rc::new(Lambertian::new(Vec3::new(0.1, 0.2, 0.5)));
-        let material_left = Rc::new(Dielectric::new(1.5));
-        let material_right = Rc::new(Metal::new(Vec3::new(0.8, 0.6, 0.2), 0.0));
+        let material_ground = Arc::new(Lambertian::new(Vec3::new(0.8, 0.8, 0.0)));
+        let material_center = Arc::new(Lambertian::new(Vec3::new(0.1, 0.2, 0.5)));
+        let material_left = Arc::new(Dielectric::new(1.5));
+        let material_right = Arc::new(Metal::new(Vec3::new(0.8, 0.6, 0.2), 0.0));
 
-        world.add(Rc::new(Sphere::new(
+        world.add(Arc::new(Sphere::new(
             Vec3::new(0.0, -100.5, -1.0),
             100.0,
             Some(material_ground),
         )));
-        world.add(Rc::new(Sphere::new(
+        world.add(Arc::new(Sphere::new(
             Vec3::new(0.0, 0.0, -1.0),
             0.5,
             Some(material_center),
         )));
-        world.add(Rc::new(Sphere::new(
+        world.add(Arc::new(Sphere::new(
             Vec3::new(-1.0, 0.0, -1.0),
             0.5,
             Some(material_left.clone()),
         )));
-        world.add(Rc::new(Sphere::new(
+        world.add(Arc::new(Sphere::new(
             Vec3::new(-1.0, 0.0, -1.0),
             -0.4,
             Some(material_left.clone()),
         )));
-        world.add(Rc::new(Sphere::new(
+        world.add(Arc::new(Sphere::new(
             Vec3::new(1.0, 0.0, -1.0),
             0.5,
             Some(material_right),
